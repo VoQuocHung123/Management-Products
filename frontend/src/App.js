@@ -1,42 +1,26 @@
 import './App.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import ExamplePage from './pages/Example';
 import Header from './components/Header';
 import SideBar from './components/Sidebar';
 import OverlayProvider from './context/OverlayContext';
-
-const routes = [
-  {
-    path: ['/'],
-    exact: true,
-    component: ExamplePage,
-  },
-
-  {
-    path: '/example',
-    component: ExamplePage,
-  },
-];
+import Product from './pages/Product/Product';
+import ProductManage from './pages/ProductManage/ProductManage';
+import UpdateProductManage from './pages/ProductManage/UpdateProductManage';
 
 function App() {
   return (
     <OverlayProvider>
-      <Header />
       <Router>
+        <Header />
         <SideBar />
-        <Switch>
-          {routes.map((route) => (
-            <Route
-              key={route.path}
-              {...route}
-            />
-          ))}
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Product />} />
+          <Route path="/danh-sach-sp" element={<Product />} />
+          <Route path="/quan-ly-sp" element={<ProductManage />} />
+          <Route path="/quan-ly-sp/update-product" element={<UpdateProductManage />} />
+          <Route path="*" element={<Product />} />
+        </Routes>
       </Router>
       <ToastContainer />
     </OverlayProvider>

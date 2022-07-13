@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.navbar-container{
+    display: flex;
+}
+.navbar-item {
+    height: 64px;
+    padding: 20px;
+    line-height: 25px;
+}
+.navbar-item_link {
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 400;
+    opacity: 0.6;
+}
+.navbar-item_link.active{
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 1;
+}

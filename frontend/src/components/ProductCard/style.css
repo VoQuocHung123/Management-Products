@@ -1,0 +1,28 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.card-container{
+    cursor: pointer;
+    margin-left: 25px;
+    margin-top: 25px;
+    width: 230px;
+    height: 250px;
+    border-radius: 10px;
+    box-shadow: 0.5px 0.5px 1px 1px #e6e0e0;
+}
+.image-card{
+    width: 190px;
+    margin-top: 10px;
+    margin-left: 30px;
+}
+.title-card ,.price-card{
+    margin-left: 30px;
+    margin-top: 20px;
+}
+.action-product{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

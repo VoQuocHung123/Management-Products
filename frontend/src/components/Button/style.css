@@ -1,0 +1,40 @@
+.action-update, .action-delete{
+    background-color: #6ECB63;
+    border: none;
+    color: white;
+    width: 90px;
+    padding: 8px 0px ;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.action-delete{
+    margin-left: 10px;
+    background-color: #FF4D4D ;
+}
+.action-add, .btn-add-form, .btn-cancel-form ,.cancel-delete ,.confirm-delete{
+    background-color:  #F5F5F5;
+    border: 1px solid #00ADE8;
+    color: #00ADE8;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn-add-form , .confirm-delete{
+    background-color: #00ADE8;
+    color: white;
+    margin-left: 20px;
+}
+.btn-add-form , .btn-cancel-form, .cancel-delete ,.confirm-delete {
+    padding: 5px 0;
+    width: 150px;
+    border-radius: 20px;
+}
+.confirm-delete{
+    background-color: #FF4D4D;
+}
+.btn-update-slideimg, .btn-delete-slideimg{
+    margin: 10px 10px;
+    margin-bottom: 0px;
+    font-size: 12px;
+    cursor: pointer;
+}

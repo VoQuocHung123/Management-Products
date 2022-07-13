@@ -1,0 +1,26 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.product-container{
+    float : left;
+    background-color: #F5F5F5;
+    height: 916px;
+    width: 80%;
+}
+.product-content{
+    width: 800px;
+    background-color: white;
+    margin: 0 100px;
+    border-radius: 10px;
+}
+.product-item{
+    display: flex;
+    flex-wrap: wrap;
+}
+.header-product{
+    display: flex;
+    justify-content: flex-end ;
+    margin: 40px 110px;
+}

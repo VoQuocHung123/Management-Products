@@ -1,10 +1,15 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/button-has-type */
 import React from 'react';
+import './style.css';
 
-function Button() {
+function Button({ className, onClick, title }) {
   return (
-    <div>
-      Button
-    </div>
+    <>
+      <button className={className} onClick={onClick}>
+        {title}
+      </button>
+    </>
   );
 }
 

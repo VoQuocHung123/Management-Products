@@ -1,0 +1,10 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.sidebar-container{
+    width: 20%;
+    height: 916px;
+    float: left;
+}

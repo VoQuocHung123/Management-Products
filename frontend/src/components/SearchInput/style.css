@@ -1,0 +1,28 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.search-container{
+    width: 400px;
+    height: 48px;
+    background-color: white;
+    border: 1px solid gainsboro;
+    border-radius: 5px;
+    display: flex;
+}
+.input-search{
+    border: none;
+    width: 90%;
+    border-radius: 10px;
+}
+.icon-search{
+    text-align: center;
+    padding : 14px 22px;
+    margin-right: 15px;
+    width: 10%;
+    opacity: 0.5;
+}
+textarea:focus, input:focus{
+    outline: none;
+}
