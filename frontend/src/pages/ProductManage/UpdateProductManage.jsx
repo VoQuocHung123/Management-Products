@@ -8,11 +8,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FaPlus } from 'react-icons/fa';
 import Form from '../../components/Form/Form';
 import productApi from '../../api/productApi';
 import './style.css';
-import Button from '../../components/Button/Button';
 import InputSlideImage from '../../components/InputSlideImage/InputSlideImage';
 
 export default function UpdateProductManage() {
@@ -47,20 +45,21 @@ export default function UpdateProductManage() {
   const handleSlideImage = (e, index) => {
     const file = e.target.files[0];
     const newImageSlideFile = { ...listFileImg, [`newImg${index + 1}`]: file };
-    console.log(newImageSlideFile);
     setListFileImg(newImageSlideFile);
     const newArrSlidePreview = [...previewSlideImage];
     newArrSlidePreview[index] = URL.createObjectURL(file);
     setPreviewSlideImage(newArrSlidePreview);
+    const convertArr = Object.values(newImageSlideFile);
+    setDataUpdateProduct({ ...dataUpdateProduct, slideimg: convertArr });
   };
   const handleDeleteImageSlide = (indexDelete) => {
     const newImageSlideFile = { ...listFileImg, [`newImg${indexDelete + 1}`]: '' };
-    console.log(newImageSlideFile);
     setListFileImg(newImageSlideFile);
     const newArrImage = [...previewSlideImage];
     newArrImage[indexDelete] = '';
     setPreviewSlideImage(newArrImage);
-    setDataUpdateProduct({ ...dataUpdateProduct, slideimg: newImageSlideFile });
+    const convertArr = Object.values(newImageSlideFile);
+    setDataUpdateProduct({ ...dataUpdateProduct, slideimg: convertArr });
   };
   const handleImageTitle = (e) => {
     const file = e.target.files[0];
@@ -72,18 +71,17 @@ export default function UpdateProductManage() {
   };
   const updateProduct = async (e) => {
     e.preventDefault();
-    console.log(dataUpdateProduct.slideimg);
     const formData = new FormData();
+    console.log(dataUpdateProduct);
     for (let name in dataUpdateProduct) {
-      formData.append(name, dataUpdateProduct[name]);
+      if (name === 'slideimg') {
+        formData.append(name, JSON.stringify(dataUpdateProduct[name]));
+      } else {
+        formData.append(name, dataUpdateProduct[name]);
+      }
     }
-    console.log(listFileImg);
     for (let name in listFileImg) {
       formData.append(name, listFileImg[name]);
-    }
-    for (const pair of formData.entries()) {
-      console.log(pair[0]);
-      console.log(pair[1]);
     }
     // eslint-disable-next-line no-underscore-dangle
     const newProduct = await productApi.putProduct(dataUpdateProduct._id, formData);

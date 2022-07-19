@@ -55,22 +55,20 @@ export class ProductService {
     updateProductDto: ProductDto,
     file,
   ): Promise<Product> {
-    console.log(updateProductDto.slideimg);
-    const arrImg = updateProductDto.slideimg.split(',');
+    const arrImg = JSON.parse(updateProductDto.slideimg);
     console.log(arrImg);
-    const arr = arrImg;
     if (file.image) {
       updateProductDto.image = file.image[0].filename;
     }
     for (let i = 1; i <= 4; i++) {
       const key = 'newImg' + i;
       if (file[key]) {
-        arr[i - 1] = file[key][0].filename;
+        arrImg[i - 1] = file[key][0].filename;
       }
     }
     const data = {
       ...updateProductDto,
-      slideimg: arr,
+      slideimg: arrImg,
     };
     console.log(data);
     const updatedProduct = await this.productModel.findByIdAndUpdate(id, data, {
