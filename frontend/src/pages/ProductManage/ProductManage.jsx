@@ -87,6 +87,9 @@ export default function ProductManage() {
       for (const name in dataEditProduct) {
         formData.append(name, dataEditProduct[name]);
       }
+      for (const value of formData.values()) {
+        console.log(value);
+      }
       await productApi.postProduct(formData);
       getDataProduct();
       setShowModal(!showModal);
@@ -97,7 +100,8 @@ export default function ProductManage() {
   const handleDataForm = (newProduct) => {
     setDataEditProduct(newProduct);
   };
-  const handleShowDelete = (product) => {
+  const handleShowDelete = (product, e) => {
+    e.stopPropagation();
     setProductId(product);
     setShowModalDelete(!showModalDelete);
   };
@@ -106,8 +110,12 @@ export default function ProductManage() {
     getDataProduct();
     setShowModalDelete(!showModalDelete);
   };
-  const handleUpdate = async (value) => {
-    navigate('update-product', { state: value });
+  const handleUpdate = async (value, e) => {
+    e.stopPropagation();
+    navigate(`update-product/${value._id}`, { state: value });
+  };
+  const handleShowDetail = (product) => {
+    navigate(`/chi-tiet-sp/${product._id}`, { state: product });
   };
   return (
     <>
@@ -132,6 +140,7 @@ export default function ProductManage() {
                     isProductManage={true}
                     handleDelete={handleShowDelete}
                     handleUpdate={handleUpdate}
+                    handleShowDetail={handleShowDetail}
                   />
                 ))}
           </div>

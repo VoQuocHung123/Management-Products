@@ -5,6 +5,10 @@ const productApi = {
     const url = `products?${query}`;
     return axios.get(url);
   },
+  getProductSuggest: (cate, id) => {
+    const url = `products?cate=${cate}&limit=3&except=${id}`;
+    return axios.get(url);
+  },
   getCategory: () => {
     const url = 'category';
     return axios.get(url);

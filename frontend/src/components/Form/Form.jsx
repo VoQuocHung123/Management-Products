@@ -1,9 +1,13 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
 import Button from '../Button/Button';
+import InputField from '../InputField/InputField';
+import SelectField from '../SelectField/SelectField';
+import TextArea from '../TextArea/TextArea';
 import './style.css';
 
 export default function Form({
@@ -12,6 +16,7 @@ export default function Form({
   addNewProduct,
   isUpdate,
   dataUpdateProduct,
+  updateProduct,
 }) {
   // eslint-disable-next-line object-curly-newline
   const { name, category, brand, description, price } = dataUpdateProduct || {};
@@ -42,69 +47,47 @@ export default function Form({
     <div>
       <form>
         <div className="form-group" style={{ marginTop: 0 }}>
-          <label htmlFor="name">Tên Sản Phẩm </label>
-          <span style={{ color: 'red' }}> * </span>
-          <input
-            type="text"
+          <InputField
+            title="Tên Sản Phẩm"
             id="name"
             value={dataEditProduct?.name}
-            className="form-input"
-            placeholder="Nhập tên sản phẩm "
-            onChange={handleChangeValue}
+            handleChangeValue={handleChangeValue}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="cate">Danh Mục Sản Phẩm </label>
-          <span style={{ color: 'red' }}> * </span>
-          <select
+          <SelectField
+            title="Danh Mục Sản Phẩm"
             id="category"
-            className="form-input"
-            onChange={handleChangeCategory}
-          >
-            <option value={dataUpdateProduct ? category : ''} hidden> {dataUpdateProduct ? category : 'Chọn danh mục sản phẩm'}</option>
-            {categoryList.map((cate, index) => (
-              <option value={cate.name} key={index}>{cate.name}</option>
-            ))}
-          </select>
+            handleChange={handleChangeCategory}
+            value={dataUpdateProduct ? category : ''}
+            content={dataUpdateProduct ? category : 'Chọn danh mục sản phẩm'}
+            optionCate={categoryList}
+          />
         </div>
         <div className="form-group">
-          <label htmlFor="brand">Hãng Sản Xuất </label>
-          <span style={{ color: 'red' }}> * </span>
-          <select
+          <SelectField
+            title="Hãng Sản Xuất"
             id="brand"
-            className="form-input"
-            onChange={handleChangeValue}
-          >
-            <option value={dataUpdateProduct ? brand : ''} hidden>{dataUpdateProduct ? brand : 'Chọn hãng sản xuất '}</option>
-            {brandsList.map((item, index) => (
-              <option value={item} key={index}> {item} </option>
-            ))}
-          </select>
+            handleChange={handleChangeValue}
+            value={dataUpdateProduct ? brand : ''}
+            content={dataUpdateProduct ? brand : 'Chọn hãng sản xuất '}
+            optionBrand={brandsList}
+          />
         </div>
         <div className="form-group">
-          <label htmlFor="price">Giá </label>
-          <span style={{ color: 'red' }}> * </span>
-          <input
-            type="text"
+          <InputField
+            title="Giá"
             id="price"
             value={dataEditProduct?.price}
-            className="form-input"
-            placeholder="Nhập giá sản phẩm "
-            onChange={handleChangeValue}
+            handleChangeValue={handleChangeValue}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="description">Mô Tả</label>
-          <span style={{ color: 'red' }}> * </span>
-          <textarea
+          <TextArea
+            title="Mô Tả"
             id="description"
-            cols="30"
-            rows=""
             value={dataEditProduct?.description}
-            className="form-input"
-            style={{ height: 100 }}
-            placeholder="Nhập mô tả"
-            onChange={handleChangeValue}
+            handleChangeValue={handleChangeValue}
           />
         </div>
         {isUpdate ? (
@@ -140,7 +123,9 @@ export default function Form({
           <Button
             className="btn-add-form"
             title="Thêm"
-            onClick={addNewProduct}
+            onClick={
+              isUpdate && dataEditProduct ? updateProduct : addNewProduct
+            }
           />
         </div>
       </form>

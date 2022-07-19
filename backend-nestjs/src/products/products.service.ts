@@ -26,6 +26,9 @@ export class ProductService {
       const content = new RegExp(queryOptions.text);
       query = { ...query, [queryOptions.fields]: content };
     }
+    if (queryOptions.except) {
+      query = { ...query, _id: { $ne: queryOptions.except } };
+    }
     const products = await this.productModel
       .find(query)
       .skip(skip)
@@ -39,7 +42,11 @@ export class ProductService {
   async createProduct(createProductDto: ProductDto, file): Promise<Product> {
     console.log(createProductDto);
     console.log(file.filename);
-    const data = { ...createProductDto, image: file.filename };
+    const data = {
+      ...createProductDto,
+      image: file.filename,
+      slideimg: ['', '', '', ''],
+    };
     const newProduct = await this.productModel.create(data);
     return newProduct;
   }
@@ -48,7 +55,24 @@ export class ProductService {
     updateProductDto: ProductDto,
     file,
   ): Promise<Product> {
-    const data = { ...updateProductDto, image: file.filename };
+    console.log(updateProductDto.slideimg);
+    const arrImg = updateProductDto.slideimg.split(',');
+    console.log(arrImg);
+    const arr = arrImg;
+    if (file.image) {
+      updateProductDto.image = file.image[0].filename;
+    }
+    for (let i = 1; i <= 4; i++) {
+      const key = 'newImg' + i;
+      if (file[key]) {
+        arr[i - 1] = file[key][0].filename;
+      }
+    }
+    const data = {
+      ...updateProductDto,
+      slideimg: arr,
+    };
+    console.log(data);
     const updatedProduct = await this.productModel.findByIdAndUpdate(id, data, {
       new: true,
     });

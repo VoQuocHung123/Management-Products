@@ -33,7 +33,10 @@ export class ProductDto {
   readonly description: string;
 
   @ApiProperty()
-  readonly image: string;
+  image: string;
   readonly updatedAt: string;
   readonly createdAt: string;
+
+  @ApiProperty()
+  slideimg: string;
 }

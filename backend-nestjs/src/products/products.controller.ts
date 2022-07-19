@@ -19,7 +19,10 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { Product } from 'src/schemas/product.schemas';
 import { multerOptions } from 'src/config/multerConfig';
-import { FilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
+import {
+  FileFieldsInterceptor,
+  FileInterceptor,
+} from '@nestjs/platform-express';
 
 @Controller('products')
 @ApiTags('products')
@@ -35,7 +38,6 @@ export class ProductController {
   getById(@Param('productId') productId: string): Promise<Product> {
     return this.productService.getById(productId);
   }
-
   @Post()
   @UsePipes(new ValidationPipe())
   @UseInterceptors(FileInterceptor('image', multerOptions))
@@ -48,7 +50,18 @@ export class ProductController {
 
   @Put(':productId')
   @UsePipes(new ValidationPipe())
-  @UseInterceptors(FilesInterceptor('image', 5, multerOptions))
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'image', maxCount: 1 },
+        { name: 'newImg1', maxCount: 1 },
+        { name: 'newImg2', maxCount: 1 },
+        { name: 'newImg3', maxCount: 1 },
+        { name: 'newImg4', maxCount: 1 },
+      ],
+      multerOptions,
+    ),
+  )
   updateProduct(
     @Param('productId') productId: string,
     @Body() updateProductDto: ProductDto,

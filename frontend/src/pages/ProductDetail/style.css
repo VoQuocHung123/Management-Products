@@ -1,0 +1,35 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.btn-back{
+    color:  #00ADE8;
+    margin : 20px 0;
+    margin-left: 50px;
+    padding-top: 20px;
+    cursor: pointer;
+}
+.product-content-detail{
+    display: flex;
+    justify-content: space-evenly;
+}
+.product-content{
+    margin-top: 50px;
+}
+.title-suggest{
+    margin-left: 50px;
+    padding-top: 20px;
+    font-size: 14px;
+}
+.product-suggest-item{
+    display: flex;
+    padding-bottom: 25px;   
+}
+.product-detail-slideimg{
+    width: 350px;
+}
+tr{
+    text-align: left;
+    line-height: 25px;
+}

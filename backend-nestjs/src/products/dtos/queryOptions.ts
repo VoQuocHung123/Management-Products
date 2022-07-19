@@ -1,4 +1,4 @@
-import { IsNumber, Min, IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class QueryOptions {
   @IsOptional()
@@ -18,4 +18,5 @@ export class QueryOptions {
   @IsString()
   cate: string;
   brand: string;
+  except: string;
 }

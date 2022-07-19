@@ -1,10 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable no-plusplus */
 import React, { useState, useEffect } from 'react';
 import queryString from 'query-string';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import SearchInput from '../../components/SearchInput/SearchInput';
 import './style.css';
@@ -19,10 +20,10 @@ export default function Product() {
   const handlePageChange = async (newPage) => {
     setSearchParams({ limit: LIMIT, page: newPage });
   };
+  const navigate = useNavigate();
   async function getDataProduct() {
     try {
       const query = queryString.stringify(Object.fromEntries(searchParams));
-      console.log(query);
       const reponsive = await productApi.getbyPage(query);
       setDataProduct(reponsive.data.products);
       const lengthPages = Math.ceil(reponsive.data.countProduct / LIMIT);
@@ -53,6 +54,9 @@ export default function Product() {
       });
     }
   };
+  const handleShowDetail = (product) => {
+    navigate(`/chi-tiet-sp/${product._id}`, { state: product });
+  };
   return (
     <div className="product-container">
       <div className="header-product">
@@ -64,7 +68,7 @@ export default function Product() {
             ? 'Không có sản phẩm'
             : dataProduct.map((product, index) => (
                 // eslint-disable-next-line react/no-array-index-key
-                <ProductCard key={index} product={product} />
+                <ProductCard key={index} product={product} handleShowDetail={handleShowDetail} />
               ))}
         </div>
         <Paginate numOfPage={numOfPage} onPageChange={handlePageChange} />

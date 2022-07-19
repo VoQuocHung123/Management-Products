@@ -15,5 +15,7 @@ export class Product {
   description: string;
   @Prop()
   image: string;
+  @Prop()
+  slideimg: Array<string>;
 }
 export const ProductSchema = SchemaFactory.createForClass(Product);

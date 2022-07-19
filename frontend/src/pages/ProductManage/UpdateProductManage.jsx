@@ -1,23 +1,39 @@
+/* eslint-disable max-len */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable prefer-const */
+/* eslint-disable guard-for-in */
 /* eslint-disable no-unused-vars */
 /* eslint-disable arrow-body-style */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
 import Form from '../../components/Form/Form';
 import productApi from '../../api/productApi';
 import './style.css';
 import Button from '../../components/Button/Button';
+import InputSlideImage from '../../components/InputSlideImage/InputSlideImage';
 
 export default function UpdateProductManage() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [categoryList, setCategoryList] = useState([]);
-  const arrSlideImage = ['', '', '', ''];
-  const [previewSlideImage, setPreviewSlideImage] = useState(arrSlideImage);
   const [previewTitleImage, setPreviewTitleImage] = useState();
   const [isUpdate, setIsUpdate] = useState(true);
   const [dataUpdateProduct, setDataUpdateProduct] = useState({});
-  const location = useLocation();
-  console.log(dataUpdateProduct);
+  const [listFileImg, setListFileImg] = useState(location.state.slideimg.length === 0 ? {
+    newImg1: '',
+    newImg2: '',
+    newImg3: '',
+    newImg4: '',
+  } : location.state.slideimg.reduce((acc, value, index) => ({ ...acc, [`newImg${index + 1}`]: value }), {}));
+  const [previewSlideImage, setPreviewSlideImage] = useState(
+    (() => {
+      let a = location.state.slideimg.map((img) => (img === '' ? '' : `http://localhost:5000/${img}`));
+      return location.state.slideimg.length === 0 ? ['', '', '', ''] : a;
+    })(),
+  );
   useEffect(() => {
     const getCategory = async () => {
       const response = await productApi.getCategory();
@@ -30,16 +46,21 @@ export default function UpdateProductManage() {
   }, [location.state]);
   const handleSlideImage = (e, index) => {
     const file = e.target.files[0];
-    const newArrSlide = [...previewSlideImage];
-    newArrSlide[index] = URL.createObjectURL(file);
-    setPreviewSlideImage(newArrSlide);
-    setDataUpdateProduct({ ...dataUpdateProduct, slideimg: newArrSlide });
+    const newImageSlideFile = { ...listFileImg, [`newImg${index + 1}`]: file };
+    console.log(newImageSlideFile);
+    setListFileImg(newImageSlideFile);
+    const newArrSlidePreview = [...previewSlideImage];
+    newArrSlidePreview[index] = URL.createObjectURL(file);
+    setPreviewSlideImage(newArrSlidePreview);
   };
   const handleDeleteImageSlide = (indexDelete) => {
+    const newImageSlideFile = { ...listFileImg, [`newImg${indexDelete + 1}`]: '' };
+    console.log(newImageSlideFile);
+    setListFileImg(newImageSlideFile);
     const newArrImage = [...previewSlideImage];
     newArrImage[indexDelete] = '';
     setPreviewSlideImage(newArrImage);
-    setDataUpdateProduct({ ...dataUpdateProduct, slideimg: newArrImage });
+    setDataUpdateProduct({ ...dataUpdateProduct, slideimg: newImageSlideFile });
   };
   const handleImageTitle = (e) => {
     const file = e.target.files[0];
@@ -48,6 +69,26 @@ export default function UpdateProductManage() {
   };
   const handleDataForm = (dataProduct) => {
     setDataUpdateProduct(dataProduct);
+  };
+  const updateProduct = async (e) => {
+    e.preventDefault();
+    console.log(dataUpdateProduct.slideimg);
+    const formData = new FormData();
+    for (let name in dataUpdateProduct) {
+      formData.append(name, dataUpdateProduct[name]);
+    }
+    console.log(listFileImg);
+    for (let name in listFileImg) {
+      formData.append(name, listFileImg[name]);
+    }
+    for (const pair of formData.entries()) {
+      console.log(pair[0]);
+      console.log(pair[1]);
+    }
+    // eslint-disable-next-line no-underscore-dangle
+    const newProduct = await productApi.putProduct(dataUpdateProduct._id, formData);
+    console.log(newProduct.data);
+    navigate(`/chi-tiet-sp/${newProduct.data._id}`, { state: newProduct.data });
   };
   return (
     <div className="product-container">
@@ -59,6 +100,7 @@ export default function UpdateProductManage() {
             isUpdate={isUpdate}
             dataUpdateProduct={dataUpdateProduct}
             handleDataForm={handleDataForm}
+            updateProduct={updateProduct}
           />
         </div>
         <div className="update-image">
@@ -71,7 +113,6 @@ export default function UpdateProductManage() {
             </label>
             <input type="file" id="img" style={{ display: 'none' }} onChange={handleImageTitle} />
             <img
-              // src={location.state.image ? `http://localhost:5000/${location.state.image}` : previewTitleImage}
               // eslint-disable-next-line no-unneeded-ternary
               src={previewTitleImage ? previewTitleImage : `http://localhost:5000/${location.state.image}`}
               alt=""
@@ -87,37 +128,7 @@ export default function UpdateProductManage() {
           <div className="update-slide-image" style={{ marginLeft: -55 }}>
             {previewSlideImage.map((item, index) => {
               return (
-                // eslint-disable-next-line react/no-array-index-key
-                <div className="group-content-image" key={index}>
-                  <label style={{ display: 'block' }}> Ảnh {index + 1}</label>
-                  <input
-                    type="file"
-                    id={`img-slide-${index}`}
-                    className="slide-image-item"
-                    onChange={(event) => handleSlideImage(event, index)}
-                  />
-                  {item ? (
-                    <>
-                      <div className="image-item-container">
-                        <img src={item} alt="" className="img-slide-select" />
-                        <div className="action-slide-image">
-                          <Button
-                            className="btn-update-slideimg"
-                            title="Cập Nhật"
-                            onClick={() => document.querySelector(`#img-slide-${index}`).click()}
-                          />
-                          <Button className="btn-delete-slideimg" title="Xoá" onClick={() => handleDeleteImageSlide(index)} />
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <label htmlFor={`img-slide-${index}`}>
-                      <div className="img-slide-select">
-                        <FaPlus />
-                      </div>
-                    </label>
-                  )}
-                </div>
+                <InputSlideImage item={item} index={index} handleDeleteImageSlide={handleDeleteImageSlide} handleSlideImage={handleSlideImage} />
               );
             })}
           </div>

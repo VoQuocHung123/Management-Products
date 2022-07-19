@@ -12,6 +12,9 @@
     border-radius: 10px;
     box-shadow: 0.5px 0.5px 1px 1px #e6e0e0;
 }
+.card-container:hover{
+    box-shadow: 0.5px 0.5px 1px 1px rgb(25, 169, 226);
+}
 .image-card{
     width: 190px;
     margin-top: 10px;

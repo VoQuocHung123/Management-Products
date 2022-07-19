@@ -6,7 +6,7 @@ import Navbar from '../Navbar/Navbar';
 function Header() {
   return (
     <div className="header">
-      <div className="logo-header">
+      <div className="logo-header" style={{ marginLeft: -30 }}>
         <span
           className="logo-image"
           style={{ backgroundImage: `url(${logo})` }}

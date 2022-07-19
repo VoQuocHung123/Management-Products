@@ -7,6 +7,7 @@ import OverlayProvider from './context/OverlayContext';
 import Product from './pages/Product/Product';
 import ProductManage from './pages/ProductManage/ProductManage';
 import UpdateProductManage from './pages/ProductManage/UpdateProductManage';
+import ProductDetail from './pages/ProductDetail/ProductDetail';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
           <Route path="/" element={<Product />} />
           <Route path="/danh-sach-sp" element={<Product />} />
           <Route path="/quan-ly-sp" element={<ProductManage />} />
-          <Route path="/quan-ly-sp/update-product" element={<UpdateProductManage />} />
+          <Route path="/quan-ly-sp/update-product/:id" element={<UpdateProductManage />} />
+          <Route path="/chi-tiet-sp/:id" element={<ProductDetail />} />
           <Route path="*" element={<Product />} />
         </Routes>
       </Router>
