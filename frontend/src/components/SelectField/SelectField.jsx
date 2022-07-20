@@ -8,17 +8,20 @@ import React from 'react';
 export default function SelectField({
   title,
   id,
-  handleChange,
+  name,
+  handleChangeValue,
+  handleChangeCategory,
   value,
   content,
   optionCate,
   optionBrand,
+  setErrors,
 }) {
   return (
     <>
       <label htmlFor={id}>{title} </label>
       <span style={{ color: 'red' }}> * </span>
-      <select id={id} className="form-input" onChange={handleChange}>
+      <select name={name} id={id} className="form-input" onChange={handleChangeValue} onClick={handleChangeCategory}>
         <option value={value} hidden>
           {content}
         </option>
@@ -33,6 +36,7 @@ export default function SelectField({
           </option>
         ))}
       </select>
+      <p className="msg-err">{setErrors}</p>
     </>
   );
 }

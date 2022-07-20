@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-restricted-syntax */
@@ -80,15 +81,11 @@ export default function ProductManage() {
   const handleCancelModal = () => {
     setShowModal(false);
   };
-  const addNewProduct = async (e) => {
-    e.preventDefault();
+  const addNewProduct = async (values) => {
     try {
       const formData = new FormData();
-      for (const name in dataEditProduct) {
-        formData.append(name, dataEditProduct[name]);
-      }
-      for (const value of formData.values()) {
-        console.log(value);
+      for (const name in values) {
+        formData.append(name, values[name]);
       }
       await productApi.postProduct(formData);
       getDataProduct();

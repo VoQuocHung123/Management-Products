@@ -13,3 +13,7 @@
     display: flex;
     justify-content: center;
 }
+.msg-err{
+    color: red;
+    font-size: small;
+}
